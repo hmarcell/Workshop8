@@ -70,7 +70,6 @@ namespace Workshop8.Controllers
             return Ok();
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUserInfos()
         {

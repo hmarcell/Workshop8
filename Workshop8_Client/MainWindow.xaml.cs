@@ -39,7 +39,7 @@ namespace Workshop8_Client
             this.tokenModel = token;
 
             client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:33376");
+            client.BaseAddress = new Uri("https://localhost:44349");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
               new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -48,12 +48,13 @@ namespace Workshop8_Client
 
             Task.Run(async () =>
             {
-                UserInfo = await GetUserInfo();
+                FolderEvents = new ObservableCollection<FolderEvent>(await GetFolders());
+                UserInfo = await GetUserInfos();
             }).Wait();
 
             //lb_profilename.Content = UserInfo.FirstName + " " + UserInfo.LastName;
 
-            conn = new HubConnectionBuilder().WithUrl("http://localhost:33376").Build();
+            conn = new HubConnectionBuilder().WithUrl("https://localhost:44349").Build();
             conn.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
@@ -78,9 +79,9 @@ namespace Workshop8_Client
         }
 
 
-        async Task<UserInfo> GetUserInfo()
+        async Task<UserInfo> GetUserInfos()
         {
-            var response = await client.GetAsync("auth");
+            var response = await client.GetAsync("/Auth");
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsAsync<UserInfo>();
