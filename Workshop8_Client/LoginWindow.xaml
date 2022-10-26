@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workshop8_Client"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="LoginWindow" Height="352" Width="800">
+    <StackPanel>
+        <Label Background="LightBlue" Padding="10">Username</Label>
+        <TextBox x:Name="tb_username" Padding="10"/>
+        <Label Background="LightBlue" Padding="10">Password</Label>
+        <PasswordBox x:Name="tb_password" Padding="10"/>
+        <Button Name="btnOpenFile" Width="100" HorizontalAlignment="Left" Margin="25,25,25,10" Padding="10" Click="btnOpenFile_Click">Open file</Button>
+        <Button Content="Login" Padding="10" Margin="10" Click="Button_Click" />
+        <Button Content="Sign up" Padding="10" Width="300" Background="Beige" Margin="10" Click="Button_Click_1" />
+    </StackPanel>
 </Window>

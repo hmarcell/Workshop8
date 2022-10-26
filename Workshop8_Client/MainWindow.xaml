@@ -6,7 +6,17 @@
         xmlns:local="clr-namespace:Workshop8_Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <ListBox ItemsSource="{Binding Cars}" SelectedItem="{Binding ActualCar}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <Label Content="{Binding Model}" ContentStringFormat="Model: {0}" />
+                        <Label Content="{Binding PlateNumber}" ContentStringFormat="Plate number: {0}" />
+                        <Label Content="{Binding Price}" ContentStringFormat="Price: {0}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
 </Window>
