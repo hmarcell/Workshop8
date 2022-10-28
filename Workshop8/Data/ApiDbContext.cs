@@ -13,7 +13,7 @@ namespace Workshop8.Data
     {
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<FolderEvent> FolderEvents { get; set; }
-        
+
         public ApiDbContext(DbContextOptions<ApiDbContext> opt) : base(opt)
         {
 
@@ -35,6 +35,13 @@ namespace Workshop8.Data
             };
             admin.PasswordHash = ph.HashPassword(admin, "admin");
             builder.Entity<AppUser>().HasData(admin);
+            builder.Entity<FolderEvent>().HasData(
+                new FolderEvent
+                {
+                    EventType = "User created the folder.",
+                    EventDate = DateTime.Now,
+                    FolderPath = "C://"
+                });
             base.OnModelCreating(builder);
         }
     }

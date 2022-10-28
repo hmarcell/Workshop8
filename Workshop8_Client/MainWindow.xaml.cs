@@ -32,6 +32,7 @@ namespace Workshop8_Client
 
         HttpClient client;
         HubConnection conn;
+
         public MainWindow(TokenModel token)
         {
             InitializeComponent();
@@ -49,10 +50,9 @@ namespace Workshop8_Client
             Task.Run(async () =>
             {
                 FolderEvents = new ObservableCollection<FolderEvent>(await GetFolders());
-                UserInfo = await GetUserInfos();
+                ;
+                //UserInfo = await GetUserInfos();
             }).Wait();
-
-            //lb_profilename.Content = UserInfo.FirstName + " " + UserInfo.LastName;
 
             conn = new HubConnectionBuilder().WithUrl("https://localhost:44349").Build();
             conn.Closed += async (error) =>
@@ -61,11 +61,18 @@ namespace Workshop8_Client
                 await conn.StartAsync();
             };
             conn.On<FolderEvent>("folderEventCreated", async t => await Refresh());
+
+            /*Task.Run(async () =>
+            {
+                await conn.StartAsync();
+            }).Wait();*/
+
+            this.DataContext = this;
         }
         async Task Refresh()
         {
             FolderEvents = new ObservableCollection<FolderEvent>(await GetFolders());
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Cars"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FolderEvents"));
         }
 
         async Task<IEnumerable<FolderEvent>> GetFolders()

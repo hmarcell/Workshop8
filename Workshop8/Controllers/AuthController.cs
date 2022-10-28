@@ -37,8 +37,6 @@ namespace Workshop8.Controllers
                 var claim = new List<Claim>
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName)
-                    //new Claim(JwtRegisteredClaimNames.Name, user.UserName),
-                    //new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
                 };
                 foreach (var role in await _userManager.GetRolesAsync(user))
                 {
@@ -58,6 +56,7 @@ namespace Workshop8.Controllers
             }
             return Unauthorized();
         }
+
         [HttpPut]
         public async Task<IActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
@@ -70,10 +69,12 @@ namespace Workshop8.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUserInfos()
         {
-            var user = _userManager.Users.First(t => t.UserName == this.User.Identity.Name);
+            var user = _userManager.Users.FirstOrDefault(t => t.UserName == this.User.Identity.Name);
+
             return Ok(new
             {
                 UserName = user.UserName,

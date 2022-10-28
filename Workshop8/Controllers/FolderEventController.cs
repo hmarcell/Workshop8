@@ -42,7 +42,7 @@ namespace Workshop8.Controllers
         [Route("[action]")]
         [Authorize]
         [HttpPost]
-        public async void AddCar([FromBody] FolderEvent fe)
+        public async void AddFolderEvent([FromBody] FolderEvent fe)
         {
             var user = _userManager.Users.FirstOrDefault
                 (t => t.UserName == this.User.Identity.Name);

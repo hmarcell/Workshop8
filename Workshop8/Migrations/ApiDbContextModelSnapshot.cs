@@ -234,16 +234,16 @@ namespace Workshop8.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "67018b8b-02c1-4e60-b48f-f0ed4c730a03",
+                            Id = "6c694146-ced2-407c-8dab-336e5552ca79",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32c31fc7-764d-4b56-a3c7-b3b4cac8246c",
+                            ConcurrencyStamp = "57740c55-cf7c-42a4-a0f9-519ca57630f7",
                             Email = "admin@admin.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPDcu5fWMxU1VYcNMP1g8Cdp+o+lspYuMeVGEJ5QlcBrLpPKG1znrpuUlOVJ1Azfqg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA2EvFNb3xp3m1uhT1rVGq5IViOuTQpIJ6remf9tQt/NtNqExHaQzCZY01+ahdtg/Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6c3d9a4b-6f88-4cad-99a5-55c6cccb76fb",
+                            SecurityStamp = "7f9ff01d-d363-43d3-98b0-c92a65d8d184",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -266,6 +266,15 @@ namespace Workshop8.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FolderEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "143ba4ac-c17f-4127-9fb5-f27b2f12e588",
+                            EventDate = new DateTime(2022, 10, 28, 0, 34, 34, 289, DateTimeKind.Local).AddTicks(3767),
+                            EventType = "User opened the folder.",
+                            FolderPath = "C://"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

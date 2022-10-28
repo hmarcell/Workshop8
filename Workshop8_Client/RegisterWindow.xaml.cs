@@ -36,14 +36,15 @@ namespace Workshop8_Client
             else
             {
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://localhost:5095");
+                client.BaseAddress = new Uri("https://localhost:44349");
                 client.DefaultRequestHeaders.Accept.Add(
                     new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json")
                 );
 
-                var response = await client.PutAsJsonAsync<RegisterViewModel>("auth", model);
                 model.UserName = tb_username.Text;
                 model.Password = tb_password.Password;
+                var response = await client.PutAsJsonAsync<RegisterViewModel>("auth", model);
+                
 
                 if (response.IsSuccessStatusCode)
                 {

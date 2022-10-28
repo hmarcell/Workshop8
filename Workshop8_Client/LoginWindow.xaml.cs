@@ -41,7 +41,7 @@ namespace Workshop8_Client
             {
                 UserName = tb_username.Text,
                 Password = tb_password.Password,
-                FilePath = filePath
+                FolderPath = filePath
             });
 
             var token = await response.Content.ReadAsAsync<TokenModel>();
@@ -63,7 +63,10 @@ namespace Workshop8_Client
             dialog.InitialDirectory = "C:\\Users";
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                lb_filePath.Content = dialog.FileName;
                 filePath = dialog.FileName;
+            }
         }
     }
 
@@ -77,6 +80,6 @@ namespace Workshop8_Client
     {
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string FilePath { get; set; }
+        public string FolderPath { get; set; }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Workshop8_Client"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="302" Width="800">
+        Title="RegisterWindow" Height="333" Width="800">
     <StackPanel>
         <Label Background="LightGreen" Padding="10">Username</Label>
         <TextBox x:Name="tb_username" Padding="10"/>

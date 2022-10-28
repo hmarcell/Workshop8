@@ -7,13 +7,13 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <StackPanel>
-        <ListBox ItemsSource="{Binding Cars}" SelectedItem="{Binding ActualCar}">
+        <ListBox ItemsSource="{Binding FolderEvents}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <Label Content="{Binding Model}" ContentStringFormat="Model: {0}" />
-                        <Label Content="{Binding PlateNumber}" ContentStringFormat="Plate number: {0}" />
-                        <Label Content="{Binding Price}" ContentStringFormat="Price: {0}" />
+                        <Label Content="{Binding EventType}" ContentStringFormat="Type of event: {0}" />
+                        <Label Content="{Binding EventDate}" ContentStringFormat="Date of event: {0}" />
+                        <Label Content="{Binding FolderPath}" ContentStringFormat="Folder's path: {0}" />
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

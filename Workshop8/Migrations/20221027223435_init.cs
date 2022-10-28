@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Workshop8.Migrations
 {
-    public partial class identitydb_added : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,7 @@ namespace Workshop8.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FolderPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -44,6 +45,20 @@ namespace Workshop8.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FolderEvents",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FolderPath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FolderEvents", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,17 +170,21 @@ namespace Workshop8.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "1", null, "admin", "Admin" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "2", null, "user", "USER" });
+                values: new object[,]
+                {
+                    { "1", null, "Admin", "Admin" },
+                    { "2", null, "User", "USER" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "5f83c873-8f6a-4d50-8ba9-414ede606839", 0, "f26d0183-471f-4825-8675-8091160aaeac", "admin@admin.com", false, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIVbqNHZ//f9rmnZnlnCMQj5scVf40vc5/L6z8hS4leMzAFD+ZNiqQ0k5STqu5RlYA==", null, false, "fd19d566-5cd9-4917-9ac1-27818e120b88", false, "admin" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FolderPath", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "6c694146-ced2-407c-8dab-336e5552ca79", 0, "57740c55-cf7c-42a4-a0f9-519ca57630f7", "admin@admin.com", false, null, false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEA2EvFNb3xp3m1uhT1rVGq5IViOuTQpIJ6remf9tQt/NtNqExHaQzCZY01+ahdtg/Q==", null, false, "7f9ff01d-d363-43d3-98b0-c92a65d8d184", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "FolderEvents",
+                columns: new[] { "Id", "EventDate", "EventType", "FolderPath" },
+                values: new object[] { "143ba4ac-c17f-4127-9fb5-f27b2f12e588", new DateTime(2022, 10, 28, 0, 34, 34, 289, DateTimeKind.Local).AddTicks(3767), "User opened the folder.", "C://" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -223,6 +242,9 @@ namespace Workshop8.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "FolderEvents");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

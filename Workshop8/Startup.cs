@@ -31,6 +31,20 @@ namespace Workshop8
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //    .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Workshop8", Version = "v1" });
+            });
+            services.AddDbContext<ApiDbContext>(option => option.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Workshop8;Trusted_Connection=True;MultipleActiveResultSets=true").UseLazyLoadingProxies());
+            services.AddIdentity<AppUser, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 5;
+                option.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<ApiDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,20 +63,6 @@ namespace Workshop8
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("nagyonhosszutitkoskodhelye"))
                 };
             });
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Workshop8", Version = "v1" });
-            });
-            services.AddDbContext<ApiDbContext>(option => option.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=Workshop8;Trusted_Connection=True;MultipleActiveResultSets=true").UseLazyLoadingProxies());
-            services.AddIdentity<AppUser, IdentityRole>(option =>
-            {
-                option.Password.RequiredLength = 5;
-                option.Password.RequireNonAlphanumeric = false;
-            })
-                .AddEntityFrameworkStores<ApiDbContext>()
-                .AddDefaultTokenProviders();
 
             services.AddSignalR();
         }
