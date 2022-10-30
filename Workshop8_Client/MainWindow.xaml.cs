@@ -54,7 +54,7 @@ namespace Workshop8_Client
                 //UserInfo = await GetUserInfos();
             }).Wait();
 
-            conn = new HubConnectionBuilder().WithUrl("https://localhost:44349").Build();
+            conn = new HubConnectionBuilder().WithUrl("https://localhost:44349/events").Build();
             conn.Closed += async (error) =>
             {
                 await Task.Delay(new Random().Next(0, 5) * 1000);
@@ -62,10 +62,10 @@ namespace Workshop8_Client
             };
             conn.On<FolderEvent>("folderEventCreated", async t => await Refresh());
 
-            /*Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await conn.StartAsync();
-            }).Wait();*/
+            }).Wait();
 
             this.DataContext = this;
         }
