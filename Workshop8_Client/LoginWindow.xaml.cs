@@ -46,6 +46,7 @@ namespace Workshop8_Client
 
             var token = await response.Content.ReadAsAsync<TokenModel>();
             token.Expiration = token.Expiration.ToLocalTime();
+            token.FolderPath = filePath;
 
             MainWindow mw = new MainWindow(token);
             mw.ShowDialog();
@@ -74,6 +75,8 @@ namespace Workshop8_Client
     {
         public string Token { get; set; }
         public DateTime Expiration { get; set; }
+        public string FolderPath { get; set; }
+
     }
 
     internal class LoginViewModel

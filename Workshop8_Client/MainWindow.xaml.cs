@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +34,8 @@ namespace Workshop8_Client
 
         HttpClient client;
         HubConnection conn;
+
+        FileSystemWatcher Watcher;
 
         public MainWindow(TokenModel token)
         {
@@ -67,8 +71,60 @@ namespace Workshop8_Client
                 await conn.StartAsync();
             }).Wait();
 
+            Watcher = new FileSystemWatcher(token.FolderPath);
+            //Watcher.IncludeSubdirectories = true;
+            Watcher.NotifyFilter = NotifyFilters.LastWrite
+                | NotifyFilters.FileName
+                | NotifyFilters.DirectoryName
+                | NotifyFilters.Size
+                | NotifyFilters.CreationTime
+                | NotifyFilters.Attributes
+                | NotifyFilters.Security;
+
+            Watcher.Filter = "*.*";
+
+            Watcher.Created += Watcher_Created;
+            Watcher.Renamed += Watcher_Renamed;
+            Watcher.Changed += Watcher_Changed;
+            Watcher.Deleted += Watcher_Deleted;
+
+            Watcher.EnableRaisingEvents = true;
+
             this.DataContext = this;
         }
+
+        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                FolderEvents.Add(new FolderEvent() { EventType = e.ChangeType.ToString(), EventDate = DateTime.Now, FolderPath = e.FullPath });
+            });
+        }
+
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                FolderEvents.Add(new FolderEvent() { EventType = e.ChangeType.ToString(), EventDate = DateTime.Now, FolderPath = e.FullPath });
+            });
+        }
+
+        private void Watcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                FolderEvents.Add(new FolderEvent() { EventType = e.ChangeType.ToString(), EventDate = DateTime.Now, FolderPath = e.FullPath });
+            });
+        }
+
+        private void Watcher_Created(object sender, FileSystemEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                FolderEvents.Add(new FolderEvent() { EventType = e.ChangeType.ToString(), EventDate = DateTime.Now, FolderPath = e.FullPath });
+            });
+        }
+
         async Task Refresh()
         {
             FolderEvents = new ObservableCollection<FolderEvent>(await GetFolders());
